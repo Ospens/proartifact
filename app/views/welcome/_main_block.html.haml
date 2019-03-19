@@ -1,0 +1,94 @@
+- main_post = @top_posts.first
+- second_post = @top_posts.second
+- third_post = @top_posts.third
+%section.top-post-area.px-1
+  .container.p-0
+    .row.small-gutters
+      .col-lg-8.top-post-left.px-1
+        = cache(main_post) do
+          .feature-image-thumb
+            .overlay.overlay-bg
+            = link_to main_post do
+              = image_tag main_post.title_image.url(:thumb), alt: 'main_post'
+          .top-post-details
+            %ul.tags.p-0
+              %li
+                = link_to main_post.all_tags.first.downcase, tag_path(main_post.all_tags.first.downcase)
+            = link_to main_post do
+              %h3.pr-2.my-2= main_post.title
+            %ul.meta.p-0.mb-3
+              %li
+                = link_to main_post do
+                  = fa_icon "eye", class: "mr-1"
+                  = main_post.impressionist_count
+              %li
+                = link_to main_post do
+                  = fa_icon "calendar", class: "mr-1"
+                  = time_ago_in_words(main_post.publish_date)
+              %li
+                = link_to main_post do
+                  = fa_icon 'thumbs-up', class: "mr-1"
+                  = main_post.votes_up.length
+              %li
+                = link_to main_post do
+                  = fa_icon 'thumbs-down', class: "mr-1"
+                  = main_post.votes_down.length
+      .col-lg-4.top-post-right.px-1
+        = cache(second_post) do
+          .single-top-post
+            .feature-image-thumb
+              .overlay.overlay-bg
+              = link_to second_post do
+                = image_tag second_post.title_image.url(:thumb_small), alt: 'second_post'
+            .top-post-details
+              %ul.tags.p-0.mb-1
+                %li
+                  = link_to second_post.all_tags.first.downcase, tag_path(second_post.all_tags.first.downcase)
+              = link_to second_post do
+                %h4.pr-2.my-0= second_post.title
+              %ul.meta.p-0.mb-1
+                %li
+                  = link_to second_post do
+                    = fa_icon "eye", class: "mr-1"
+                    = second_post.impressionist_count
+                %li
+                  = link_to second_post do
+                    = fa_icon "calendar", class: "mr-1"
+                    = time_ago_in_words(second_post.publish_date)
+                %li
+                  = link_to main_post do
+                    = fa_icon 'thumbs-up', class: "mr-1"
+                    = second_post.votes_up.length
+                %li
+                  = link_to main_post do
+                    = fa_icon 'thumbs-down', class: "mr-1"
+                    = second_post.votes_down.length
+        = cache(third_post) do
+          .single-top-post.mt-2
+            .feature-image-thumb.relative
+              .overlay.overlay-bg
+              = link_to third_post do
+                = image_tag third_post.title_image.url(:thumb_small), alt: 'third_post'
+            .top-post-details
+              %ul.tags.p-0.mb-1
+                %li
+                  = link_to third_post.all_tags.first.downcase, tag_path(third_post.all_tags.first.downcase)
+              = link_to third_post do
+                %h4.pr-2.my-0= third_post.title
+              %ul.meta.p-0.mb-1
+                %li
+                  = link_to third_post do
+                    = fa_icon "eye", class: "mr-1"
+                    = third_post.impressionist_count
+                %li
+                  = link_to third_post do
+                    = fa_icon "calendar", class: "mr-1"
+                    = time_ago_in_words(third_post.publish_date)
+                %li
+                  = link_to main_post do
+                    = fa_icon 'thumbs-up', class: "mr-1"
+                    = third_post.votes_up.length
+                %li
+                  = link_to main_post do
+                    = fa_icon 'thumbs-down', class: "mr-1"
+                    = third_post.votes_down.length

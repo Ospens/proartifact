@@ -1,0 +1,8 @@
+- content_for :meta_title, "#{@news.title} | #{DEFAULT_META["meta_title"]}"
+- content_for :meta_image, "#{@news.title_image.url(:large)}"
+- content_for :vk_meta_image, "#{@news.title_image.url(:large)}"
+- content_for :meta_description, "#{@news.short_description}"
+- content_for :link_canonical, "#{news_url(@news)}"
+  
+= render 'articles/article_template', item: @news, type: 'news' 
+    

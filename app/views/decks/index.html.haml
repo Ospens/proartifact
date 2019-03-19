@@ -1,0 +1,56 @@
+- content_for :meta_title, "Колоды | #{DEFAULT_META["meta_title"]}"
+-# content_for :meta_image, "#{@decks.first.title_image.url(:medium)}"
+- content_for :meta_description, "Актуальные колоды Artifact"
+
+
+%section.latest-post-area.px-1
+  .container.p-0
+    .row
+      .col-lg-8.post-list.px-1
+        .latest-post-wrap
+          %h4.cat-title Колоды
+          .row
+            - @decks.each do |deck|
+              - heroes = deck.cards.where(card_class: 1).order('deck_cards.hero_order')
+              %article.single-latest-post.row.align-items-center.col-6.mr-2
+                .col-lg-12.post-right
+                  = link_to deck do
+                    %h4.deck_title= deck.name
+                  %ul.meta.pl-0
+                    %li
+                      = link_to deck do
+                        = fa_icon "eye", class: "mr-1"
+                        = deck.impressionist_count
+                    %li
+                      = link_to deck do
+                        = fa_icon "calendar", class: "mr-1"
+                        - if deck.published_at > Time.current - 14.days
+                          = time_ago_in_words(deck.published_at)
+                        - else
+                          = deck.published_at&.strftime("%F")
+                    %li
+                      = link_to deck do
+                        = fa_icon 'thumbs-up', class: "mr-1"
+                        = deck.votes_up.length
+                    %li
+                      = link_to deck do
+                        = fa_icon 'thumbs-down', class: "mr-1"
+                        = deck.votes_down.length
+                    %li
+                      = link_to deck do
+                        = fa_icon 'money', class: "mr-1"
+                        - price = deck.deck_cards.includes(:card).sum { |dc| (dc.card_count || 1) * dc.card.market_price }
+                        = "#{price.round(2)} р"
+                  %p.excert
+                    .row.hero_container.mb-2
+                      - heroes.each_with_index do |hero, i|
+                        .col-sm.hero-icon.text-center{class: "hero_#{color_class(hero.color)}"}
+                          = image_tag hero.hero_icon.url(:original), :height => "30"
+      .col-lg-4.px-1
+        = render 'blocks/news', cached: true
+        = render 'blocks/articles'
+        = render 'blocks/galery'
+        = render 'blocks/social', cached: true
+  .mt-4
+    = will_paginate @decks, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: '< ', next_label: ' >'
+    

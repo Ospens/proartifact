@@ -1,0 +1,11 @@
+.latest-post-area.users_form
+  .latest-post-wrap
+    %h2.cat-title Забыли пароль?
+    = form_for(resource, as: resource_name, url: user_password_path(), html: { method: :post }) do |f|
+      = devise_error_messages!
+      .form-group.field
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', placeholder: 'Email'
+      .actions
+        = f.submit "Восстановить пароль"
+    = render "devise/shared/links"

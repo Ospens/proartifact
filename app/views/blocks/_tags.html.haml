@@ -1,0 +1,10 @@
+.sidebars-area.mb-3
+  .single-sidebar-widget.list_block
+    .sidebars-area.mb-4.p-0
+      %h6.title
+        Теги
+      %ul.block_list
+        - Tag.counts.each do |tag|
+          %li.d-flex
+            .icons.d-flex.flex-row.tag_line
+              = link_to tag.name, tag_path(tag.name)

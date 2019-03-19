@@ -1,0 +1,31 @@
+- content_for :meta_title, "Картинки Artifact | #{DEFAULT_META["meta_title"]}"
+- content_for :meta_image, "#{@pictures.first.image.url(:medium)}"
+- content_for :meta_description, "Артефакт картинки"
+
+%section.latest-post-area.px-1
+  .container.p-0
+    .row
+      .col-lg-8.post-list.px-1
+        .latest-post-wrap.pb-1
+          %h1.cat-title Галерея
+        .row.my-gallery.py-2.m-0.main_gallery_page{:itemscope => "", :itemtype => "http://schema.org/ImageGallery"}
+          - @pictures.each do |picture|
+            - cache picture do
+              %figure.col-sm-2.px-0{:itemprop => "associatedMedia", :itemscope => "", :itemtype => "http://schema.org/ImageObject"}
+                - dem = "#{picture.image_width}x#{picture.image_height}"
+                = link_to picture.image.url, {"data-size" => "#{dem}", :itemprop => "contentUrl", class: 'card mx-1 shadow-sm gallery_image_wrapper text-center'} do
+                  = image_tag picture.image.url(:medium), class: "card-img-top #{img_orientation(dem)}", :itemprop => "thumbnail", lazy: true
+                %meta{:content => picture.image_width, :itemprop => "width"}
+                %meta{:content => picture.image_height, :itemprop => "height"}
+                %figcaption.d-none{:itemprop => "caption description"}
+                  = picture.description_img
+                  %span.d-none{:itemprop => "copyrightHolder"} ProArtifact.ru
+
+      .col-lg-4.mb-4
+        = render 'blocks/articles'
+        = render 'blocks/social', cached: true
+        = render 'blocks/tags'
+.mt-4
+  = will_paginate @pictures, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: '< ', next_label: ' >'
+
+= render 'galleries/photoswipe_modal', cached: true

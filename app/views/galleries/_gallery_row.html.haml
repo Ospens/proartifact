@@ -1,0 +1,11 @@
+.latest-post-wrap.mt-3.pb-1
+  %h4.cat-title
+    = link_to 'Галерея', galleries_path
+.row.my-gallery.pt-2.m-0.block_gallery_page{:itemscope => "", :itemtype => "http://schema.org/ImageGallery"}
+  - @pictures.each do |picture|
+    %figure.col-md-2.px-1{:itemprop => "associatedMedia", :itemscope => "", :itemtype => "http://schema.org/ImageObject"}
+      - dem = "#{picture.image_width}x#{picture.image_height}"
+      = link_to picture.image.url, {"data-size" => dem, :itemprop => "contentUrl", class: 'card mx-1 shadow-sm gallery_image_wrapper text-center'} do
+        = image_tag picture.image.url(:medium), class: "card-img-top #{img_orientation(dem)}", :itemprop => "thumbnail", lazy: true
+
+= render 'galleries/photoswipe_modal', cached: true

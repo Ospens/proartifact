@@ -1,0 +1,45 @@
+// Place all the styles related to the Galleries controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.gallery_image_wrapper {
+    position: relative;
+    overflow: hidden !important;
+    padding-bottom: 100%;
+    .squad {
+        height: 100%;
+        width: 100%;
+    }
+    .landscape {
+        height: 100%;
+        width: auto;
+    }
+    .album {
+        height: auto;
+        width: 100%;
+    }
+    img.card-img-top {
+        position: absolute;
+        vertical-align: middle;
+        border-style: none;
+        -webkit-transition: all .3s ease-out;
+        -moz-transition: all .3s ease-out;
+        -o-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+        &:hover {
+            transform: scale(1.075);
+        }
+    }
+    figure {
+        margin-bottom: 0 !important;
+    }
+}
+
+.my-gallery {
+    background-color: #343335;
+    &.main_gallery_page {
+      padding: 16px;
+    }
+    &.block_gallery_page {
+      padding: 12px;
+    }
+}

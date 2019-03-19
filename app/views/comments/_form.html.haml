@@ -1,0 +1,11 @@
+- if user_signed_in? && current_user.mute_to && current_user.mute_to > Time.current
+  %div
+    %strong
+      = "Вы не можете писать комментарии до #{current_user.mute_to.strftime("%F %R")}"
+- elsif user_signed_in?
+  = form_with model: [commentable, Comment.new], html: { class: local_assigns[:class], data: { target: local_assigns[:target] } } do |form|
+    .form-group
+      = form.text_area :body, placeholder: 'Напишите комментарий (минимум 3 символа)', class: 'form-control'
+    .form-group
+      = form.hidden_field :parent_id, value: local_assigns[:parent_id]
+      = form.submit 'Отправить', class: 'btn'

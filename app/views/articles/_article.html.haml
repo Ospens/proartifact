@@ -1,0 +1,26 @@
+- @articles.each_slice(3) do |articles|
+  .row.my-4
+    - articles.each do |article|
+      %article.col-md-4.px-1
+        .card.article_card.mb-1{class: "#{'border border-danger' if current_user&.admin? && article.publish_date > Time.current}"}
+          .image_wrapper
+            = link_to article do
+              = image_tag article.title_image.url(:medium)
+          .card-body.px-3
+            %h5.card-title
+              = link_to article.title, article_path(article)
+            = link_to article do
+              %p.card-text.article_short_desc= article.short_description.truncate(135)
+            .row.card-text.info-block.align-items-end.px-3
+              .col-4.p-1
+                %span.text-muted.float-left
+                  = fa_icon "eye", class: "mr-1"
+                  = article.impressionist_count
+              .col-8.p-1 
+                %span.text-muted.float-right
+                  = fa_icon "calendar", class: "mr-1"
+                  = article.publish_date&.strftime("%F %R")
+          .card-footer.py-2
+            %small.text-muted
+              Теги:
+              = raw article.tags.map(&:name).map{ |t| link_to "##{t}" ,tag_path(t), class: 'tag tag-primary' }.join(' ')

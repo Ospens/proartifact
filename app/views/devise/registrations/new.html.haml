@@ -1,0 +1,23 @@
+.latest-post-area.users_form
+  .latest-post-wrap
+    %h2.cat-title Регистрация
+    = form_for(resource, as: resource_name, url: user_registration_path()) do |f|
+      = devise_error_messages!
+      .form-group.field
+        = f.label 'Nickname'
+        = f.text_field :nickname, autofocus: true, autocomplete: "nickname", class: 'form-control', placeholder: 'Выбирите Nickname'
+      .form-group.field
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control', placeholder: 'Введите Email'
+      .form-group.field
+        = f.label 'Пароль'
+        - if @minimum_password_length
+          %em
+            (минимум #{@minimum_password_length} символов)
+        = f.password_field :password, autocomplete: "new-password", class: 'form-control', placeholder: 'Пароль'
+      .form-group.field
+        = f.label 'Повторите пароль'
+        = f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control', placeholder: 'Подтвердите пароль'
+      .actions
+        = f.submit "Зарегистрироваться"
+    = render "devise/shared/links"

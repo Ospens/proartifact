@@ -1,0 +1,6 @@
+%h2.cat-title Легенда
+.effect_card
+  - if @card.lore_text.nil? || @card.lore_text&.empty?
+    %p Когда-нибудь об этой карте сложат легенду
+  - else
+    = @card.lore_text

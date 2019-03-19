@@ -1,0 +1,79 @@
+- card_class = type_class(@card.card_class)
+- color_class = color_class(@card.color)
+- is_hero = card_class == 'type-heroes'
+- is_item = card_class == 'type-item'
+- is_creep = card_class == 'type-creep'
+- is_impoovment = card_class == 'type-impoovment'
+
+.card_tooltip.row
+  .col.col-md-auto.px-1
+    = link_to @card, class: 'crd-container' do
+      .mg.mx-1{class: "#{card_class} #{color_class}"}
+        .title-crd
+          - if is_hero
+            .hero-icon 
+              = image_tag @card.hero_icon.url(:small), :height => "20"
+          - elsif is_impoovment
+            .impr_cost
+              = fa_icon "caret-left", class: "ml-1", style: "color:#afafaf; margin-right: -3px;"
+              = @card.manacost
+              = fa_icon "caret-right", class: "mr-1", style: "color:#afafaf; margin-left: -3px;"
+          - else
+            .cost= @card.manacost
+          .cname= @card.title
+          .tooltip_card_price{style: ''}= "#{@card.market_price}р."
+
+        .image
+          = image_tag @card.image_card.url(:medium)
+        .spell-type
+          %span.icon-spells.background_type{class: "icon-#{type_to_icon(@card.item_type ? "i-#{@card.item_type}" : @card.card_class)}"}
+          = image_tag 'ico_empty.png', :width => "28"
+
+        - if is_impoovment && @card.impr_ability.present?
+          .impr_ability_container
+            = image_tag @card.impr_ability.url(:small), width: "44"
+
+        - if (is_hero || is_creep) && @card.hero_spells.present?
+          .skill-icon{:style => "bottom:40px;"}
+            = image_tag @card.hero_spells.url(:small), :width => "50", class: 'tooltip-show', 'data-tooltip-content': "#tooltip_content_#{@card.slug}"
+            .d-none
+              %span.cardspell.my-2{id: "tooltip_content_#{@card.slug}"}
+                .hero_spell_box
+                  .card_spell_img
+                    = image_tag @card.hero_spells.url(:small), width: 70
+                  %div
+                    %h3.card_spell_name= @card.ability_name
+                    %p.card_spell_type= ability_to_word(@card.ability_type) 
+                .effect_card.mb-4.mt-2
+                  = @card.ability_description&.html_safe
+          - if @card.second_hero_spells.present?
+            .skill-icon{:style => "bottom:40px; left: 65px;"}
+              = image_tag @card.second_hero_spells.url(:small), :width => "50"
+          - if !@card&.hero_parent&.hero_icon.nil?
+            .parent-hero{class: "#{'with_description' if !@card.description.empty?}"}
+              = image_tag @card.hero_parent.hero_icon.url(:small)
+        - elsif !is_hero
+          - if !@card&.hero_parent&.hero_icon.nil?
+            .parent-hero{class: "#{'with_description' if !@card.description.empty?}"}
+              = image_tag @card.hero_parent.hero_icon.url(:small)
+          - if !@card.description.empty?
+            .info
+              .txt= truncate_html(@card.description, length: 150, omission: '...')
+              
+            - if is_item
+              .gold= @card.item_gold
+
+        .rarity.rare
+          %span.icon-rare.set_style{class: "#{@card.card_set == 2 ? 'icon-set2' : 'icon-set1'}", style: "color:#{rarity_color(@card.rarity)}"}
+        .crd-footer
+          - if is_hero || is_creep
+            .box
+              %span.icon-attack
+              = @card.attack
+            .box{style: ("background:none;" if @card.armor.nil?)}
+              - unless @card.armor.nil?
+                %span.icon-armor
+                = @card.armor
+            .box
+              %span.icon-accessories
+              = @card.health

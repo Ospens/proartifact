@@ -1,0 +1,12 @@
+%section.latest-post-area.px-1
+  .container.p-0
+    .row
+      .col-lg-8.post-list.px-1
+        / Start latest-post Area
+        = render 'welcome/latest_block', items: @news, title: 'Последние новости'
+        .mt-3
+        = render 'welcome/latest_block', items: @articles, title: 'Последние статьи'
+        = render 'galleries/gallery_row'
+      .col-lg-4.px-1
+        = render 'blocks/tags'
+        = render 'blocks/social'

@@ -1,0 +1,328 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require article.scss
+ *= require fonts.scss
+ *= require cards.scss
+ *= require welcome.scss
+ *= require comments.scss
+ *= require photoswipe.css
+ *= require galleries.scss
+ *= require users.scss
+ *= require decks.scss
+ *= require font-awesome.scss
+ *= require default-skin.css
+ *= require jquery.datetimepicker.css
+ *= require tooltipster.bundle.css
+ */
+
+@import "bootstrap";
+@mixin box-shadow {
+    -webkit-box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
+    -moz-box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
+    box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
+}
+
+.bg-violet {
+    background-color: #1a0c2a;
+    color: #DDD;
+}
+
+.bg-custom_gray {
+    background-color: #343335;
+    color: #DDD;
+}
+
+.navbar {
+    -webkit-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.75);
+    z-index: 100 !important;
+    h1 {
+        height: 32px;
+        a {
+            display: block;
+        }
+    }
+}
+
+body {
+    //background: #0b0e11 image-url("bg.jpg") no-repeat center center fixed;
+    
+        //background: #000 linear-gradient(to top, rgba(0, 0, 0, 0) 0, rgba(62, 24, 92, 0.4) 60%, rgba(27, 26, 32, 0.3) 100%);
+    background-image:image-url("light_bg.jpg");
+    background-color: #ccf2ff;
+    background-size: 1920px auto;
+    -webkit-background-size: 1920px auto;
+    -moz-background-size: 1920px auto;
+    -o-background-size: 1920px auto;
+    background-position-y: -20px;
+    background-attachment: fixed;
+    background-repeat: no-repeat;       
+    
+    min-height: 75rem;
+    li {
+        list-style-type: none;
+    }
+    .text-1-3em {
+        font-size: 1em;
+    }
+    nav:not(.pagination) {
+        background: rgba(23, 51, 72, 1);
+        background: -moz-linear-gradient(left, rgba(19, 13, 35, 1) 0%, rgba(37, 31, 55, 1) 23%, rgba(42, 33, 62, 1) 32%, rgba(51, 38, 75, 1) 50%, rgba(48, 24, 54, 1) 77%, rgba(48, 23, 53, 1) 78%, rgba(41, 20, 46, 1) 100%);
+        background: -webkit-gradient(left top, right top, color-stop(0%, rgba(23, 51, 72, 1)), color-stop(23%, rgba(37, 31, 55, 1)), color-stop(32%, rgba(42, 33, 62, 1)), color-stop(50%, rgba(51, 38, 75, 1)), color-stop(77%, rgba(48, 24, 54, 1)), color-stop(78%, rgba(48, 23, 53, 1)), color-stop(100%, rgba(41, 20, 46, 1)));
+        background: -webkit-linear-gradient(left, rgba(23, 51, 72, 1) 0%, rgba(37, 31, 55, 1) 23%, rgba(42, 33, 62, 1) 32%, rgba(51, 38, 75, 1) 50%, rgba(48, 24, 54, 1) 77%, rgba(48, 23, 53, 1) 78%, rgba(41, 20, 46, 1) 100%);
+        background: -o-linear-gradient(left, rgba(23, 51, 72, 1) 0%, rgba(37, 31, 55, 1) 23%, rgba(42, 33, 62, 1) 32%, rgba(51, 38, 75, 1) 50%, rgba(48, 24, 54, 1) 77%, rgba(48, 23, 53, 1) 78%, rgba(41, 20, 46, 1) 100%);
+        background: -ms-linear-gradient(left, rgba(23, 51, 72, 1) 0%, rgba(37, 31, 55, 1) 23%, rgba(42, 33, 62, 1) 32%, rgba(51, 38, 75, 1) 50%, rgba(48, 24, 54, 1) 77%, rgba(48, 23, 53, 1) 78%, rgba(41, 20, 46, 1) 100%);
+        background: linear-gradient(to right, rgba(19, 13, 35, 1) 0%, rgba(37, 31, 55, 1) 23%, rgba(42, 33, 62, 1) 32%, rgba(51, 38, 75, 1) 50%, rgba(48, 24, 54, 1) 77%, rgba(48, 23, 53, 1) 78%, rgba(41, 20, 46, 1) 100%);
+        a {
+            font-size: 14px;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+            text-transform: uppercase;
+        }
+    }
+    a {
+        color: #b49861;
+        &:hover,
+        &:focus {
+            color: #fef9bd;
+            text-decoration: none;
+        }
+    }
+    .card-header {
+        color: #b49861;
+    }
+}
+
+main {
+    min-height: 1100px;
+}
+
+.card {
+    background-color: #343335;
+    color: #fff;
+    @include box-shadow;
+}
+
+.card-footer {
+    background-color: #1b1c1e;
+}
+
+.header {
+    background-color: #1b1c1e;
+}
+
+.img-left-block {
+    max-width: 100%;
+}
+
+.btn-gold {
+    color: #000;
+    background-color: #b49861;
+    border-color: #fdfabc;
+}
+
+.badge-gold {
+    color: #000;
+    background-color: #b49861;
+}
+
+.list-group-item-violet.list-group-item-action:hover,
+.list-group-item-violet.list-group-item-action:focus {
+    color: #fdfabc;
+    background-color: #3d3d3e;
+}
+
+.fa-icons {
+    padding-right: 10px;
+    font-size: 24px !important;
+    display: block !important;
+    float: left;
+    margin-right: 10px !important;
+    width: 36px;
+    border-right: 1px solid rgba(0, 0, 0, 0.2);
+    &.fa-reddit:before {
+        color: #ff4500;
+    }
+    &.fa-telegram:before {
+        color: #2ea6da;
+    }
+    &.fa-vk:before {
+        color: #4e7db2;
+    }
+    &.fa-youtube-play:before {
+        color: #f30007;
+    }
+}
+
+nav.pagination {
+    a,
+    .page-link {
+        color: #c9d3a6;
+        background-color: #343335;
+        border: 1px solid #958059;
+    }
+    .page-item.disabled .page-link {
+        color: #c9d3a6;
+        background-color: #343335;
+        border: 1px solid #958059;
+    }
+    .page-item.active .page-link {
+        background-color: #b49861;
+        border-color: #b49861;
+        border-top-color: #b49861;
+        border-right-color: #b49861;
+        border-bottom-color: #b49861;
+        border-left-color: #b49861;
+    }
+}
+
+.cards_rules {
+    li {
+        list-style-type: inherit !important;
+    }
+}
+
+.zen_logo {
+    background-image: none !important;
+    margin-left: 2px;
+    padding-right: 10px !important;
+}
+
+.parts_title {
+    background-color: #958059;
+    h1 {
+        font-size: 20px;
+    }
+}
+
+blockquote {
+    background: #1b1c1e;
+    background-clip: border-box;
+    padding: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background-clip: padding-box;
+    font-style: oblique;
+    margin: 10px;
+}
+
+.mt-8 {
+    margin-top: 6em;
+}
+#article_info {
+  img{
+        max-height: 600px;
+        max-width: 100%;
+  }
+}
+font {
+  font-family: icomoon;
+}
+.users_form {
+  input {
+    border-radius: 0 !important;
+    font-size: 13px !important;
+  }
+  .actions {
+    text-align: center;
+    input {
+      background: #f30007;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 0;
+      border: 1px solid #f30007;
+      &:hover, &:focus {
+        background: #620003;
+        border: 1px solid #f30007;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+}
+#error_explanation {
+  color:red;
+}
+textarea {
+  padding: 12px !important;
+  background: #fff !important;
+  border: none !important;
+  border-radius: 0px !important;
+  width: 100% !important;
+  font-size: 13px !important;
+  color: #777777 !important;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  font-size: 15px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.6);
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  /* Show the dropdown menu on hover */
+  &:hover .dropdown-content,
+  &:focus-within .dropdown-content,
+  &:focus .dropdown-content {
+    display: block;
+    visibility: visible;
+    /* shows sub-menu */
+    opacity: 1;
+    z-index: 1;
+    transform: translateY(0%);
+    transition-delay: 0s, 0s, 0.3s;
+    /* this removes the transition delay so the menu will be visible while the other styles transition */
+  }
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  position: absolute;
+  background-color: #343335;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  visibility: hidden;
+  /* hides sub-menu */
+  opacity: 0;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  transform: translateY(-2em);
+  z-index: -1;
+  transition: all 0.3s ease-in-out 0s,
+  visibility 0s linear 0.3s,
+  z-index 0s linear 0.01s;
+
+  a {
+    color: white;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    &:hover {
+      background-color: #3d3d3e;
+      color: white !important;
+    }
+  }
+}
+
+.session_group {
+  padding-left: 10px;
+  .session_btn {
+    padding: 0;
+    font-size: 12px;
+    float: right;
+  }
+}

@@ -1,0 +1,150 @@
+- content_for :meta_title, "#{@card.title} | #{DEFAULT_META["meta_title"]}"
+- content_for :meta_image, "#{@card.image_card.url(:medium)}"
+- content_for :meta_description, "#{@card.description}"  
+
+.row.mt-8
+  - card_class = type_class(@card.card_class, '-show')
+  - color_class = color_class(@card.color)
+  - is_hero = card_class == 'type-heroes-show'
+  - is_spell = card_class == 'type-spell-show'
+  - is_item = card_class == 'type-item-show'
+  - is_creep = card_class == 'type-creep-show'
+  - is_impoovment = card_class == 'type-impoovment-show'
+  .col-xl-3{:style => "padding-bottom:20px;"}
+    .mg.mx-1{class: "#{card_class} #{color_class}"}
+      .title-crd
+        - if is_impoovment
+          .impr_cost
+            = fa_icon "caret-left", class: "ml-1 arr", style: "color:#afafaf; margin-right: -3px;"
+            = @card.manacost
+            = fa_icon "caret-right", class: "mr-1 arr", style: "color:#afafaf; margin-left: -3px;"
+          .cname= @card.title
+        - if is_item 
+          .cname= @card.title
+        - if is_spell
+          .cost= @card.manacost
+          .cname= @card.title
+      .image
+        = image_tag @card.image_card.url(:medium)
+      - if (is_hero || is_creep) && @card.hero_spells.present?
+        .creep_hero_skill
+          = image_tag @card.hero_spells.url(:small)
+        - if @card.second_hero_spells.present?
+          .creep_hero_skill{style: 'left: 95px;'}
+            = image_tag @card.second_hero_spells.url(:small)
+      - elsif !(is_hero || is_creep)
+        .spell-type
+          %span.icon-spells.background_type{class: "icon-#{type_to_icon(@card.item_type ? "i-#{@card.item_type}" : @card.card_class)}"}
+          = image_tag 'ico_empty.png', :width => "36"
+        - if !@card&.hero_parent&.hero_icon.nil?
+          .for-hero
+            = image_tag @card.hero_parent.hero_icon.url(:small)
+        - if is_impoovment && @card.impr_ability.present?
+          .impr_ability_container
+            = image_tag @card.impr_ability.url(:small), width: "50"
+        .info
+          .txt= truncate_html(@card.description, length: 150, omission: '...')
+          - if is_item
+            .gold= @card.item_gold
+        .rarity.rare
+          %span.icon-rare.set_style{class: "#{@card.card_set == 2 ? 'icon-set2' : 'icon-set1'}", style: "color:#{rarity_color(@card.rarity)}"}
+      .crd-footer
+        - if is_hero || is_creep
+          .stats
+            .box= @card.attack
+            .box_armor{style: ("background:none;" if @card.armor.nil?)}= @card.armor
+            .box= @card.health
+    .clearfix
+  .col-xl-9
+    - if is_impoovment || is_spell
+      = render 'cards/show_improvement'
+    - elsif is_hero
+      = render 'cards/show_hero'
+    - elsif is_creep
+      = render 'cards/show_creep'
+    - elsif is_item
+      = render 'cards/item_info'
+    - if relative_card = @card.hero_parent || @card.children_cards.first
+      .sidebars-area.mb-3
+        .single-sidebar-widget.list_block
+          .sidebars-area.mb-4.p-0
+            %h4.title
+              Связанные карты
+        - card_class = type_class(relative_card.card_class)
+        - color_class = color_class(relative_card.color)
+        - is_hero = card_class == 'type-heroes'
+        - is_item = card_class == 'type-item'
+        - is_creep = card_class == 'type-creep'
+        - is_impoovment = card_class == 'type-impoovment'
+        .px-1{style: 'width: 210px;'}
+          = link_to relative_card, class: 'crd-container child' do
+            .mg.mx-1{class: "#{card_class} #{color_class}"}
+              .title-crd
+                - if is_hero
+                  .hero-icon 
+                    = image_tag relative_card.hero_icon.url(:small), :height => "20"
+                - elsif is_impoovment
+                  .impr_cost
+                    = fa_icon "caret-left", class: "ml-1", style: "color:#afafaf; margin-right: -3px;"
+                    = relative_card.manacost
+                    = fa_icon "caret-right", class: "mr-1", style: "color:#afafaf; margin-left: -3px;"
+                - else
+                  .cost= relative_card.manacost
+                .cname= relative_card.title
+
+              .image
+                = image_tag relative_card.image_card.url(:medium)
+              .spell-type
+                %span.icon-spells.background_type{class: "icon-#{type_to_icon(relative_card.item_type ? "i-#{relative_card.item_type}" : relative_card.card_class)}"}
+                = image_tag 'ico_empty.png', :width => "28"
+
+              - if is_impoovment && relative_card.impr_ability.present?
+                .impr_ability_container
+                  = image_tag relative_card.impr_ability.url(:small), width: "44"
+
+              - if (is_hero || is_creep) && relative_card.hero_spells.present?
+                .skill-icon{:style => "bottom:40px;"}
+                  = image_tag relative_card.hero_spells.url(:small), :width => "50"
+                - if relative_card.second_hero_spells.present?
+                  .skill-icon{:style => "bottom:40px; left: 65px;"}
+                    = image_tag relative_card.second_hero_spells.url(:small), :width => "50"
+                - if !relative_card&.hero_parent&.hero_icon.nil?
+                  .parent-hero{class: "#{'with_description' if !relative_card.description.empty?}"}
+                    = image_tag relative_card.hero_parent.hero_icon.url(:small)
+              - elsif !is_hero
+                - if !relative_card&.hero_parent&.hero_icon.nil?
+                  .parent-hero{class: "#{'with_description' if !relative_card.description.empty?}"}
+                    = image_tag relative_card.hero_parent.hero_icon.url(:small)
+                - if !relative_card.description.empty?
+                  .info
+                    .txt= truncate_html(relative_card.description, length: 150, omission: '...')
+                  - if is_item
+                    .gold= relative_card.item_gold
+
+              .rarity.rare
+                %span.icon-rare.set_style{class: "#{relative_card.card_set == 2 ? 'icon-set2' : 'icon-set1'}", style: "color:#{rarity_color(relative_card.rarity)}"}
+              .crd-footer
+                - if is_hero || is_creep
+                  .box
+                    %span.icon-attack
+                    = relative_card.attack
+                  .box{style: ("background:none;" if relative_card.armor.nil?)}
+                    - unless relative_card.armor.nil?
+                      %span.icon-armor
+                      = relative_card.armor
+                  .box
+                    %span.icon-accessories
+                    = relative_card.health
+            %h4.card_nm.mt-2= relative_card.title
+
+    / comments
+    #comments.sidebars-area.my-3.pb-1.comments_block
+      .single-sidebar-widget.list_block
+        .sidebars-area.mb-2.p-0
+          %h6.title Комментарии
+        = render partial: 'comments/form', locals: { commentable: @card, class: 'main_replies_from' }
+        - if params[:comment]
+          %p Ветка комментария
+          = link_to "Показать все комментарии", url_for()
+        = render @comments, continue_thread: 5
+      = paginate @comments

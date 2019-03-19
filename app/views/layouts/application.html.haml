@@ -1,0 +1,69 @@
+!!! 5
+%html{:lang => "ru"}
+  %head
+    = render 'layouts/meta_tags', cached: true
+
+    = javascript_include_tag 'jquery3', 'data-turbolinks-track' => true, cache: true
+    = javascript_include_tag 'popper', 'data-turbolinks-track' => true, cache: true
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true, cache: true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true, cache: true
+    = csrf_meta_tags
+  %body{id: "#{ 'root' if current_page?(root_path)}"}
+    %nav.navbar.navbar-expand-lg.navbar-dark.fixed-top
+      .container
+        - if current_page?(root_path)
+          %h1
+            %a.navbar-brand{:href => "/"}
+              = image_tag 'logo.png', class: "card-img-top", height: '30px', alt: 'Proartifact.ru'
+        - else
+          %a.navbar-brand{:href => "/"}
+            = image_tag 'logo.png', class: "card-img-top", height: '30px'
+        %button.navbar-toggler{"aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarNav", "data-toggle" => "collapse", :type => "button"}
+          %span.navbar-toggler-icon
+        #navbarNav.collapse.navbar-collapse
+          %ul.navbar-nav.ml-auto
+            %li.nav-item{class: "#{'active' if current_page?(root_path)}"}
+              = link_to 'Главная', root_path, class: 'nav-link'
+            %li.nav-item{class: "#{'active' if current_page?(news_index_path)}"}
+              = link_to 'Новости', news_index_path, class: 'nav-link'
+            %li.nav-item{class: "#{'active' if current_page?(articles_path)}"}
+              = link_to 'Статьи', articles_path, class: 'nav-link'
+            %li.nav-item{class: "#{'active' if current_page?(galleries_path)}"}
+              = link_to 'Галерея', galleries_path, class: 'nav-link'
+            %li.nav-item{class: "#{'active' if current_page?(decks_path)}"}
+              = link_to 'Колоды', decks_path, class: 'nav-link'
+            %li.nav-item.dropdown
+              = link_to 'Карты', card_list_path, class: 'nav-link dropbtn'
+              .dropdown-content
+                = link_to 'Картинками', cards_path, class: 'nav-link dropbtn'
+                = link_to 'Списком', card_list_path, class: 'nav-link dropbtn'
+            %li.nav-item
+              = link_to 'Тир-лист','/tier_lists/draft-tl-by-hyped/', class: 'nav-link'
+            - if user_signed_in?
+              %li.nav-item{style: 'color: white'}
+                = image_tag 'BH.png', width: 30
+              %li.nav-item.dropdown
+                .nav-link.dropbtn= current_user.nickname
+                .dropdown-content
+                  = link_to 'Мой профиль', user_path(current_user)
+                  = link_to 'Редактировать', edit_user_registration_path
+                  = link_to "Выход", destroy_user_session_path, method: :delete
+              - if current_user&.admin
+                = link_to "Админка", rails_admin_path, class: "nav-link", target: '_blank'
+            - else
+              %li.nav-item.session_group
+                = link_to "Войти", new_user_session_path, class: "nav-link session_btn"
+                .clearfix
+                = link_to "Зарегистрироваться", new_user_registration_path, class: "nav-link session_btn"
+    .spacing
+    %main.container.mt-4.mb-4
+      .clearfix
+      - flash.each do |name, msg|
+        = content_tag :div, msg, class: "alert alert-warning", style: 'margin-top: 50px;'
+      = yield
+    .clearfix
+    = render 'layouts/footer', cached: true
+
+    - if Rails.env.production?
+      = render 'layouts/google_analytics', cached: true
+      = render 'layouts/yandex_metrika', cached: true

@@ -1,0 +1,14 @@
+.sidebars-area.mb-3.pb-1
+  .single-sidebar-widget.list_block
+    .sidebars-area.mb-2.p-0
+      %h2.title Новости
+    %ul.block_list
+      - articles = nil
+      - if @article
+        - articles = News.where.not(id: @news&.id).last(3)
+      - else 
+        - articles = News.last(3)
+      - articles.each do |article|
+        %li.d-flex
+          %h3.icons.d-flex.flex-row.tag_line
+            = link_to article.title, article

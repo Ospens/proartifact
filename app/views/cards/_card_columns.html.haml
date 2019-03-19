@@ -1,0 +1,24 @@
+.placeholder2.container.visible.card_list.row
+  - items.each_with_index do |cards, i|
+    .col-md.card-column{data: {color: cards[1].first.color, type: cards[1].first.card_class}}
+      %h4
+        %span{class: "icon-#{i == 4 ? ico_item : icon}"}
+          = entities[i]
+      - cards[1].each do |card|
+        .col-md-12.card_line.tooltip-card{style: "padding:0px;margin:0;", data: {id: card.id, color: card.color, type: card.card_class, rarity: card.rarity, set: card.card_set, eng_title: card.eng_title&.downcase || '', title: card.title&.downcase}}
+          = link_to card, class: "#{color_class(card.color)}-card-tooltip card-tooltip", target: '_blank' do
+            %div.cards_gr{class: "bg1_#{color_class(card.color)}", style: "border-left: 4px solid #{rarity_color(card.rarity)};"}
+              %div{:style => "padding-right: 10px;float:left;"}
+                - if card.card_class == 1
+                  = image_tag card.hero_icon.url(:small), width: '20px', height: '20px', style: "margin-top:-4px;"
+                - elsif card.card_class == 3
+                  %span{:style => "font-size:14px;font-weight:bold;"}= card.item_gold
+                - else
+                  %span{:style => "font-size:14px;font-weight:bold;"}= card.manacost
+              = card.title
+            - if card.card_set != 1 && card.hero_parent_id.nil?
+              .card_price= "#{card.market_price}р."
+            - elsif card.hero_parent_id.present?
+              .parent_card_ico= image_tag card.hero_parent.hero_icon.url(:small), width: '20px', height: '20px', style: "margin-top:-4px;"
+              
+    

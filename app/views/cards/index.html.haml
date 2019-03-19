@@ -1,0 +1,68 @@
+- content_for :meta_title, "Карты Artifact | #{DEFAULT_META["meta_title"]}"
+- content_for :meta_image, "#{@cards.first.image_card.url(:medium)}"
+- content_for :meta_description, "Все карты игры Artifact с фильтрами"  
+
+.sidebars-area
+  .single-sidebar-widget.list_block.row
+    .sidebars-area.mb-0.px-2.p-0.col-md-6
+      %h4.title.mb-0{style: 'background-color: #505050;'}
+        = link_to 'Карты списком', card_list_path, class: 'nav-link dropbtn p-0'
+
+    .sidebars-area.mb-0.px-2.p-0.col-md-6
+      %h4.title.mb-0 Карты с картинками
+#filters_container.mb-3.pb-2
+  .row.pl-4
+    .mr-3.pl-2.text-center
+      Тип
+      #filters_type
+        .btn.filter_buttons.col{value: 0, 'data-type' => 1}
+          %span.icon-hero
+          = image_tag 'ico_empty.png', width: '35'
+        .btn.filter_buttons.col{value: 0, 'data-type' => 2}
+          %span.icon-spell
+          = image_tag 'ico_empty.png', width: '35'
+        .btn.filter_buttons.col{value: 0, 'data-type' => 3}
+          %span.icon-attack
+          = image_tag 'ico_empty.png', width: '35'
+        .btn.filter_buttons.col{value: 0, 'data-type' => 4}
+          %span.icon-creep
+          = image_tag 'ico_empty.png', width: '35'
+        .btn.filter_buttons.col{value: 0, 'data-type' => 5}
+          %span.icon-improvement
+          = image_tag 'ico_empty.png', width: '35'
+    .mr-3.text-center
+      Редкость
+      #filters_rarity
+        .btn.filter_buttons.col{value: 0, 'data-type' => 1}
+          .squere_rarity{style: 'background-color:#f7f7f7;'}
+        .btn.filter_buttons.col{value: 0, 'data-type' => 2}
+          .squere_rarity{style: 'background-color:#cd7f32;'}
+        .btn.filter_buttons.col{value: 0, 'data-type' => 3}
+          .squere_rarity{style: 'background-color:#95a5a6;'}
+        .btn.filter_buttons.col{value: 0, 'data-type' => 4}
+          .squere_rarity{style: 'background-color:#ffba01;'}
+    .mr-3.text-center
+      Цвет
+      #filters_color
+        .btn.filter_buttons.col{value: 0, 'data-type' => 1}
+          .circle_color{style: 'background-color:#4b623c;'}
+        .btn.filter_buttons.col{value: 0, 'data-type' => 2}
+          .circle_color{style: 'background-color:#6f1424;'}
+        .btn.filter_buttons.col{value: 0, 'data-type' => 3}
+          .circle_color{style: 'background-color:#3e3f3f;'}
+        .btn.filter_buttons.col{value: 0, 'data-type' => 4}
+          .circle_color{style: 'background-color:#1f4a64;'}
+    .mr-3.text-center
+      Сет
+      #filters_set
+        .btn.filter_buttons.col{value: 0, 'data-type' => 1}
+          %span.icon-set1
+          = image_tag 'ico_empty.png', width: '35'
+        .btn.filter_buttons.col{value: 0, 'data-type' => 2}
+          %span.icon-set2
+          = image_tag 'ico_empty.png', width: '35'
+    #card_search_input.mr-3.mt-4
+      %input{:placeholder => " Поиск"}
+      #search_button.btn.btn-gold.ml-1
+        поиск
+= render partial: 'cards/list', locals: { cards: @cards }

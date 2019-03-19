@@ -1,0 +1,37 @@
+- nesting     = local_assigns.fetch(:nesting, 1)
+- max_nesting = local_assigns[:max_nesting]
+- continue_thread = local_assigns[:continue_thread]
+= tag.div id: dom_id(comment), class: "border-left pl-4 my-4" do
+  - if comment.deleted?
+    %strong [комментарий удален]
+    %small
+      = link_to time_ago_in_words(comment.created_at), url_for(comment: comment.id, anchor: dom_id(comment))
+    %p [комментарий удален]
+  - else
+    - comments_user = comment.user
+    %strong.comments_user_line
+      = fa_icon "user-circle", class: "mr-1"
+      = link_to comments_user.nickname, user_path(comments_user), class: 'user_link'
+    %small
+      = link_to time_ago_in_words(comment.created_at), polymorphic_path(comment.commentable, comment: comment.id, anchor: dom_id(comment))
+    = simple_format comment.body
+  %div.comments_block
+    - if user_signed_in? && current_user.mute_to && current_user.mute_to > Time.current
+    - else
+      %small
+        - if user_signed_in? 
+          %btn.reply Отвеить
+        - else
+          = link_to "Отвеить", new_user_session_path
+        = link_to "Удалить", [comment.commentable, comment], method: :delete, data: {confirm: "Вы уверены?"} if comment.user == current_user
+      = render partial: "comments/form", locals: {                       |
+          commentable: comment.commentable,                              |
+          parent_id: reply_to_comment_id(comment, nesting, max_nesting), |
+          class: "mt-4 d-none replies_form",                             |
+          target: "reply.form"                                           |
+        }                                                                |
+  = tag.div id: "#{dom_id(comment)}_comments" do
+    - if continue_thread.present? && nesting >= continue_thread && comment.comments.any?
+      = link_to "Открыть ветку", url_for(comment: comment.id, anchor: dom_id(comment))
+    - else
+      = render comment.comments, continue_thread: continue_thread, nesting: nesting + 1, max_nesting: local_assigns[:max_nesting]

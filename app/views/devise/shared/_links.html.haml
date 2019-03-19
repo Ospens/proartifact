@@ -1,0 +1,29 @@
+- if controller_name != 'sessions'
+  = link_to "Войти", new_user_session_path()
+  %br
+- if devise_mapping.registerable? && controller_name != 'registrations'
+  = link_to "Зарегистрироваться", new_user_registration_path()
+  %br
+- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations'
+  = link_to "Забыли пароль?", new_user_password_path()
+  %br
+- if devise_mapping.confirmable? && controller_name != 'confirmations'
+  = link_to "Не пришло письмо c подтверждением?", new_user_confirmation_path()
+  %br
+- if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != 'unlocks'
+  = link_to "Didn't receive unlock instructions?", new_unlock_path(resource_name)
+  %br
+- if devise_mapping.omniauthable?
+  .row.justify-content-center
+    - resource_class.omniauth_providers.each do |provider|
+      .mx-4.my-2
+        - if provider == :steam
+          = link_to omniauth_authorize_path(resource_name, provider), class: "row btn btn-steam-auth" do
+            %span.un-verified
+              = fa_icon "steam", class: "mr-1 fa-icons"
+              Войти через Steam
+        - if provider == :vkontakte
+          = link_to omniauth_authorize_path(resource_name, provider), class: "row btn btn-vk-auth" do
+            %span.un-verified
+              = fa_icon "vk", class: "mr-1 fa-icons"
+              Войти через VK

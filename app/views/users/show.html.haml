@@ -1,0 +1,55 @@
+- content_for :meta_title, "#{@user.nickname} | #{DEFAULT_META["meta_title"]}"
+-# content_for :meta_image, "#{@article.title_image.url(:large)}"
+- content_for :meta_description, "#{@user.nickname}"  
+
+- steam_uid = @user.authorizations.find_by(provider: 'Steam')&.uid
+- vk_profile = @user.authorizations.find_by(provider: 'Vkontakte')
+.row
+  .col-sm-9
+    .sidebars-area.mb-3
+      .single-sidebar-widget.list_block
+        .sidebars-area.mb-4.p-0
+          %h4.title
+            = "Страница пользователя #{@user.nickname}"
+            - if current_user == @user
+              %small.float-right
+                = link_to 'Редактировать', edit_user_registration_path
+          .row
+            .col-sm-1.mx-4.text-center{style: 'color: white;'}
+              = image_tag 'BH.png', width: 70
+              %p{style: 'min-width: 70px'}= @user.nickname
+            .col-sm-5{style: 'color: white;'}
+              %ul.block_list
+                %li.d-flex.justify-content-between.align-items-center
+                  .icons.d-flex.flex-row.align-items-center
+                    = fa_icon 'calendar', class: 'mr-1 fa-icons'
+                    .pl-2
+                      = "Дата регистрации: #{@user.created_at&.strftime("%F")}"
+                - if steam_uid
+                  %li.d-flex.justify-content-between.align-items-center
+                    .icons.d-flex.flex-row.align-items-center
+                      = fa_icon 'steam', class: 'mr-1 fa-icons'
+                      .pl-2
+                        = link_to 'Профиль Steam', "http://steamcommunity.com/profiles/#{steam_uid}", target: '_blank'
+            .col-sm-5{style: 'color: white;'}
+              %ul.block_list
+                - if vk_profile
+                  %li.d-flex.justify-content-between.align-items-center
+                    .icons.d-flex.flex-row.align-items-center
+                      = fa_icon "vk", class: "mr-1 fa-icons"
+                      .pl-2
+                        = link_to vk_profile.name, "https://vk.com/id#{vk_profile.uid}", target: '_blank'
+        %h2.cat-title.mb-4 Комментарии
+        - @comments.each do |comment|
+          .effect_card.mb-4.py-1
+            %p= comment.body
+            = link_to time_ago_in_words(comment.created_at), polymorphic_path(comment.commentable, comment: comment.id, anchor: dom_id(comment))
+
+  .col-sm-3.px-1
+    = render 'blocks/news', cached: true
+    = render 'blocks/articles', cached: true
+    = render 'blocks/articles', cached: true
+    = render 'blocks/news', cached: true
+    = render 'blocks/galery'
+    = render 'blocks/social', cached: true
+    = render 'blocks/tags'

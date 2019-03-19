@@ -1,0 +1,40 @@
+.latest-post-wrap
+  - if title == 'Последние статьи'
+    = link_to articles_path do
+      %h2.cat-title= title
+  - else
+    = link_to news_index_path do
+      %h2.cat-title= title
+  - items.each do |item|
+    .single-latest-post.row.align-items-center
+      .col-lg-5.post-left
+        .feature-img.relative
+          .overlay.overlay-bg
+          = link_to item do
+            = image_tag item.title_image.url(:small), class: 'card-img-top', alt: 'img'
+        %ul.tags.p-0
+          %li
+            = link_to item.all_tags.first.downcase, tag_path(item.all_tags.first.downcase)
+      .col-lg-7.post-right
+        = link_to item do
+          %h3= item.title
+        %ul.meta.pl-0
+          %li
+            = link_to item do
+              = fa_icon "eye", class: "mr-1"
+              = item.impressionist_count
+          %li
+            = link_to item do
+              = fa_icon "calendar", class: "mr-1"
+              = time_ago_in_words(item.publish_date)
+          %li
+            = link_to item do
+              = fa_icon 'thumbs-up', class: "mr-1"
+              = item.votes_up.length
+          %li
+            = link_to item do
+              = fa_icon 'thumbs-down', class: "mr-1"
+              = item.votes_down.length
+        %p.excert
+          = link_to item do
+            = item.short_description

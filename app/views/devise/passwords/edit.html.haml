@@ -1,0 +1,18 @@
+.latest-post-area.users_form
+  .latest-post-wrap
+    %h2.cat-title Изменить пароль
+    = form_for(resource, as: resource_name, url: user_password_path(), html: { method: :put }) do |f|
+      = devise_error_messages!
+      = f.hidden_field :reset_password_token
+      .form-group.field
+        = f.label :password, "Новый пароль"
+        - if @minimum_password_length
+          %em
+            (минимум #{@minimum_password_length} символов)
+        = f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-control', placeholder: 'Новый пароль'
+      .form-group.field
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation, autocomplete: "off", class: 'form-control', placeholder: 'Подтвердите новый пароль'
+      .actions
+        = f.submit "Изменить"
+    = render "devise/shared/links"

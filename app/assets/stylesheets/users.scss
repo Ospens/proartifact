@@ -1,0 +1,22 @@
+.btn-vk-auth {
+  color: #fff !important;
+  background-color: #4a76a8;
+  border-color: #c2c2c2 !important;
+  &:hover {
+    background-color: #5c8bc0;
+  }
+  .fa-vk::before {
+    color: #fff !important;
+  }
+}
+.btn-steam-auth {
+  color: #fff !important;
+  background-color: #454341;
+  border-color: #898b8c !important;
+  &:hover {
+    background-color: #63615f;
+  }
+  .fa-steam::before {
+    color: #fff !important;
+  }
+}

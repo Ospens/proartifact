@@ -1,0 +1,5 @@
+%p= "Здравствуйте,  #{@resource.unconfirmed_email}!"
+%p
+  %span{:style => "font-size:13pt;line-height:110%"} Спасибо за регистрацию на информационном портале ProArtifact
+%p Перейдите по ссылке ниже для завершения регистрации:
+%p= link_to 'Подтвердить аккаунт', user_confirmation_url(confirmation_token: @token)

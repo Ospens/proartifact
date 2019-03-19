@@ -1,0 +1,62 @@
+.latest-post-area.users_form
+  .latest-post-wrap
+    %h2.cat-title Редактирование профиля
+    = form_for(resource, as: resource_name, url: user_registration_path(), html: { method: :put }) do |f|
+      = devise_error_messages!
+      .form-group.field
+        = f.label :nickname
+        = f.text_field :nickname, autofocus: true, autocomplete: "nickname", class: 'form-control', placeholder: 'Никнейм'
+      .form-group.field
+        = f.label :email
+        = f.email_field :email, autocomplete: "email", class: 'form-control', placeholder: 'Email'
+      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+        %div{style: 'color: grey'}
+          Электронная почта ожидает подтверждения: #{resource.unconfirmed_email}
+      .form-group.field
+        = f.label 'Новый пароль'
+        %em (оставьте пустым если не хотите менять)
+        = f.password_field :password, class: 'form-control', placeholder: 'Новый пароль'
+        - if @minimum_password_length
+          %em
+            минимум
+            = @minimum_password_length
+            символов
+      .form-group.field
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation, class: 'form-control', placeholder: 'Подтверждение нового пароля'
+      - if !resource.password_generated
+        .form-group.field
+          = f.label :current_password
+          %em (введите текущий пароль для подтверждения)
+          = f.password_field :current_password, autocomplete: "current-password", class: 'form-control', placeholder: 'Текущий пароль'
+      // socials
+      .row.justify-content-center
+        .form-group.field.mx-4
+          - provider = 'Steam'
+          - if current_user.connection_with?(provider)
+            - steam_profile =  current_user.authorizations.find_by(provider: provider)
+            = link_to "http://steamcommunity.com/profiles/#{steam_profile.uid}", class: "row btn btn-steam-auth", target: '_blank' do
+              %span.un-verified
+                = fa_icon "steam", class: "mr-1 fa-icons"
+                = steam_profile.name
+          - else
+            = link_to user_steam_omniauth_authorize_path(provider: provider.downcase), class: "row btn btn-steam-auth" do
+              %span.un-verified
+                = fa_icon "steam", class: "mr-1 fa-icons"
+                Связать с Steam
+        .form-group.field.mx-4
+          - provider = 'Vkontakte'
+          - if current_user.connection_with?(provider)
+            - vk_profile =  current_user.authorizations.find_by(provider: provider)
+            = link_to "https://vk.com/id#{vk_profile.uid}", class: "row btn btn-vk-auth", target: '_blank' do
+              %span.un-verified
+                = fa_icon "vk", class: "mr-1 fa-icons"
+                = vk_profile.name
+          - else
+            = link_to user_vkontakte_omniauth_authorize_path(provider: provider.downcase), class: "row btn btn-vk-auth" do
+              %span.un-verified
+                = fa_icon "vk", class: "mr-1 fa-icons"
+                Связать с VK
+      .actions
+        = f.submit "Обновить данные"
+    = link_to "Назад", :back

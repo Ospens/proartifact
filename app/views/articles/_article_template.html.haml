@@ -1,0 +1,112 @@
+%section.latest-post-area
+  .container.no-padding
+    .row
+      .col-lg-9.post-list.px-1
+        / Start single-post Area
+        %article.single-post-wrap{itemtype: "https://schema.org/Article", itemscope: ''}
+          %meta{content: "#{item.title} | #{DEFAULT_META["meta_title"]}", itemid: "#{request.base_url + article_path(item.friendly_id)}", itemprop: "mainEntityOfPage", itemscope: "", itemtype: "https://schema.org/WebPage", content: item.title}
+          %div{itemtype: "https://schema.org/ImageObject", itemprop: "image", itemscope: ''}
+            .d-none= image_tag item.title_image.url(:thumb_small), class: "card-img-top", itemprop: "url image"
+            %meta{:content => "380", :itemprop => "width"}
+            %meta{:content => "220", :itemprop => "height"}
+        
+          .content-wrap
+            .d-none{itemprop: "publisher", itemtype: "https://schema.org/Organization", itemscope: ''}
+              %div{itemprop: "logo", itemtype: "https://schema.org/ImageObject", itemscope: ''}
+                = image_tag 'logo.png', class: "card-img-top", height: '30px', alt: 'Proartifact.ru', itemprop: "url image"
+                %meta{:content => "100", :itemprop => "width"}
+                %meta{:content => "15", :itemprop => "height"}
+              %meta{itemprop: "name", content: "Pro Artifact"}
+              %meta{itemprop: "address", content: "Россия"}
+              %meta{itemprop: "telephone", content: "0"}
+            .d-none{itemprop: "articleBody"}= item.short_description
+            .d-none{itemprop: "author", itemtype: "http://schema.org/Person", itemscope: ''}
+              %meta{itemprop: "name", content: "https://vk.com/proartifact_ru"}
+            / Article body
+            %h1{itemprop: "headline"}= item.title
+            %ul.meta
+              - if item.author_link && item.author && !item.author.empty?
+                %li
+                  = fa_icon "user-circle", class: "mr-1"
+                  = link_to item.author_link, target: '_blank' do
+                    = item.author
+              %li
+                = fa_icon "eye", class: "mr-1"
+                = @shows
+              %li{itemprop: "datePublished"}
+                = fa_icon "calendar", class: "mr-1"
+                = item.publish_date&.strftime("%F %R")
+              .d-none{itemprop: "dateModified"}= item.updated_at&.strftime("%F %R")
+            - if type == 'news'
+              = item.news_text&.html_safe
+            - elsif type == 'article'
+              = item.article_text&.html_safe
+            %div{'data-turbolinks': false}
+              / Yandex.RTB R-A-334935-3
+              :javascript
+                (function(w, d, n, s, t) {
+                    w[n] = w[n] || [];
+                    w[n].push(function() {
+                        Ya.Context.AdvManager.render({
+                            blockId: "R-A-334935-3",
+                            renderTo: "yandex_rtb_R-A-334935-3",
+                            async: true
+                        });
+                    });
+                    t = d.getElementsByTagName("script")[0];
+                    s = d.createElement("script");
+                    s.type = "text/javascript";
+                    s.src = "//an.yandex.ru/system/context.js";
+                    s.async = true;
+                    t.parentNode.insertBefore(s, t);
+                })(this, this.document, "yandexContextAsyncCallbacks");
+            %small
+              - if type == 'news' && item.news_source_link && item.news_source
+                Источник:
+                = link_to item.news_source_link, target: '_blank' do
+                  = item.news_source
+              - elsif type == 'article' && item.article_source_link && item.article_source
+                Источник:
+                = link_to item.article_source_link, target: '_blank' do
+                  = item.article_source
+          / info
+          %ul.tags
+            - item.all_tags.each do |tag|
+              %li
+                = fa_icon "tags", class: "mr-1"
+                = link_to tag, tag_path(tag.downcase)
+          / likes
+          - likes = item.likes
+          %span.float-right{id: 'article_id', 'data-id': item.id, 'data-type': type}
+            - user_like = likes.find_by(user: current_user)
+            %button.vote_up.mr-2{class: user_like&.vote == 1 ? 'clicked' : ''}
+              - votes_up = item.likes.where(vote: 1).length
+              = fa_icon 'thumbs-up', class: 'mr-1'
+              %span{'data-votes': votes_up}= votes_up
+            %button.vote_down.mr-1{class: user_like&.vote == -1 ? 'clicked' : ''}
+              - votes_down = item.likes.where(vote: -1).length
+              = fa_icon 'thumbs-down', class: 'mr-1'
+              %span{'data-votes': votes_down}= votes_down
+        / comments
+        #comments.sidebars-area.my-3.pb-1.comments_block
+          .single-sidebar-widget.list_block
+            .sidebars-area.mb-2.p-0
+              %h6.title Комментарии
+            = render partial: 'comments/form', locals: { commentable: item, class: 'main_replies_from' }
+            - if params[:comment]
+              %p Ветка комментария
+              = link_to "Показать все комментарии", url_for()
+            = render @comments, continue_thread: 5
+          = will_paginate @comments, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: '< ', next_label: ' >'
+      .col-lg-3.px-1
+        - if item.class.name == 'News'
+          = render 'blocks/news', cached: true
+          = render 'blocks/articles', cached: true
+        - else
+          = render 'blocks/articles', cached: true
+          = render 'blocks/news', cached: true
+        = render 'blocks/galery'
+        = render 'blocks/social', cached: true
+        = render 'blocks/tags'
+
+= javascript_include_tag 'votes', 'data-turbolinks-track' => true, cache: true

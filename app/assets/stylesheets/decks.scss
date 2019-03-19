@@ -1,0 +1,108 @@
+.hero_container {
+  float: none;
+  clear: both;
+  height: 55px;
+  padding-left: 15px;
+  padding-right: 15px;
+  .hero-icon {
+    height: inherit;
+    padding: 4px;
+    border: 4px inset #6e6e6e;
+    img {
+      margin-top: 7%;
+    }
+  }
+  .hero_red {
+    background-color: #6f1424;
+  }
+  .hero_blue {
+    background-color: #1f4a64;
+  }
+  .hero_green {
+    background-color: #2a6037;
+  }
+  .hero_black {
+    background-color: #3e3f3f;
+  } 
+}
+.card_info_column {
+  color: #a3a3a4;
+  .col-7 {
+    border-left: 1px solid #484848;
+  }
+  .col {
+    padding-left: 10px;
+    padding-right: 10px;
+    span {
+      font-size: 18px;
+    }
+  }
+}
+.mana_chart {
+  margin-bottom: 25px; 
+  padding-left: 15px;
+  padding-right: 15px;
+  color: white;
+  .col-sm-1 {
+    padding: 0;
+    .manabar {
+      transform: rotate(180deg);
+      height: 80px;
+      background-color: #1a1a1a;
+      margin-left: 5px;
+      .colormana {
+        width: 100%;
+        vertical-align: bottom;
+        border-bottom: 1px solid #000;
+      }
+    }
+  }
+  .col-sm-6 {
+    padding-right: 5px;
+    &.right_column {
+      padding-left: 0;
+    }
+  }
+  .color_square {
+    margin-top: 5px;
+    background-color: red;
+    height: 36px;
+    width: 36px;
+    padding-top: 6px;
+    font-weight: 600;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.8);
+  }
+}
+.btn-copy {
+  background: #54395a;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 20px;
+  border-radius: 0;
+  border: 1px solid #54395a;
+  margin-bottom: 20px;
+}
+.deck_list {
+  .card_line {
+    padding: 0px;
+    margin:0;
+
+    [class^="bg1_"],
+    [class*=" bg1_"] {
+      div {
+        padding-right: 10px;
+        float:left;
+        span {
+          font-size:15px;
+        }
+      }
+    }
+  }
+}
+#deck_code {
+  cursor: pointer;
+}
+.deck_title {
+  font-size: 1.3rem;
+}

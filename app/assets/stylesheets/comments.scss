@@ -1,0 +1,35 @@
+// Place all the styles related to the article_comments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.comments_block {
+  strong {
+    color: white;
+  }
+  p {
+    color: white;
+  }
+
+  input {
+    background: #f30007;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 20px;
+    border-radius: 0;
+    border: 1px solid #f30007;
+  }
+  small {
+    color: #aa8a47;
+    .reply:hover {
+      color: #fef9bd;
+      text-decoration: none;
+      cursor: pointer;
+    }
+  }
+  .comments_user_line {
+    .user_link{
+      margin-right: 0.25rem !important;
+      color:white;
+    }
+  }
+}

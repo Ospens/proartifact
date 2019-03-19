@@ -1,0 +1,27 @@
+AllCops:
+  Exclude:
+  - 'bin/**/*'
+  - 'config/**/*'
+  - 'db/schema.rb'
+  - 'vendor/**/*'
+Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 50
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
+Metrics/BlockLength:
+  Exclude:
+  - 'Rakefile'
+  - '**/*.rake'
+  - '**/*.builder'
+  - 'spec/**/*.rb'

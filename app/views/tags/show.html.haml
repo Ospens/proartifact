@@ -1,0 +1,16 @@
+- content_for :meta_title, "#{@tag&.name || params[:id]} | #{DEFAULT_META["meta_title"]}"
+- content_for :meta_description, "#{@tag&.name || params[:id]}"
+- content_for :link_canonical, "#{articles_url}"
+.row
+  .col-md-9
+    .card.mb-4.row.parts_title
+      .card-body.py-2
+        %h1.mb-0= "Результат по тегу: #{@tag&.name || params[:id]}  "
+    - if @tag.nil? || @tag.articles.empty?
+      %h2 Ничего не найдено
+    - else
+      = render 'articles/article'
+  .col-md-3
+    = render 'blocks/tags'
+    = render 'blocks/social', cached: true
+    = render 'blocks/galery'

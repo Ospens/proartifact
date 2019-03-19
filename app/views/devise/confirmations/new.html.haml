@@ -1,0 +1,11 @@
+.latest-post-area.users_form
+  .latest-post-wrap
+    %h2.cat-title Выслать повторно письмо с подтверждением 
+    = form_for(resource, as: resource_name, url: user_confirmation_path(), html: { method: :post }) do |f|
+      = devise_error_messages!
+      .form-group.field
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), class: 'form-control', placeholder: 'Email'
+      .actions
+        = f.submit "Отправить письмо повторно"
+    = render "devise/shared/links"

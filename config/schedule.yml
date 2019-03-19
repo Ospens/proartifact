@@ -1,0 +1,4 @@
+steam_parser_job:
+  cron: "1 */6 * * *"
+  class: "SteamParserJob"
+  queue: default

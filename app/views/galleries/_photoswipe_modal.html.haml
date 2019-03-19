@@ -1,0 +1,37 @@
+/ Root element of PhotoSwipe. Must have class pswp.
+.pswp{"aria-hidden" => "true", :role => "dialog", :tabindex => "-1"}
+  /
+    Background of PhotoSwipe.
+    It's a separate element, as animating opacity is faster than rgba().
+  .pswp__bg
+  / Slides wrapper with overflow:hidden.
+  .pswp__scroll-wrap
+    / Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory.
+    / don't modify these 3 pswp__item elements, data is added later on.
+    .pswp__container
+      .pswp__item
+      .pswp__item
+      .pswp__item
+    / Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed.
+    .pswp__ui.pswp__ui--hidden
+      .pswp__top-bar
+        / Controls are self-explanatory. Order can be changed.
+        .pswp__counter
+        %button.pswp__button.pswp__button--close{:title => "Закрыть (Esc)"}
+        %button.pswp__button.pswp__button--share{:title => "Скачать"}
+        %button.pswp__button.pswp__button--fs{:title => "Полноэкранный режим"}
+        %button.pswp__button.pswp__button--zoom{:title => "Приблизить/отдалить"}
+        / Preloader demo https://codepen.io/dimsemenov/pen/yyBWoR
+        / element will get class pswp__preloader--active when preloader is running
+        .pswp__preloader
+          .pswp__preloader__icn
+            .pswp__preloader__cut
+              .pswp__preloader__donut
+      .pswp__share-modal.pswp__share-modal--hidden.pswp__single-tap
+        .pswp__share-tooltip
+      %button.pswp__button.pswp__button--arrow--left{:title => "Previous (arrow left)"}
+      %button.pswp__button.pswp__button--arrow--right{:title => "Next (arrow right)"}
+      .pswp__caption
+        .pswp__caption__center
+:javascript
+  (function(){(function(e){var u,t,n,i,r,l,s,d,o;for(d=function(e){var t,n,i,r,l,o,a,d;for(o=(d=e.childNodes).length,r=[],i=a=l=t=void 0,n=0;n<o;)1===(t=d[n]).nodeType&&(a=(l=t.children[0]).getAttribute("data-size").split("x"),i={src:l.getAttribute("href"),w:parseInt(a[0],10),h:parseInt(a[1],10)},1<t.children.length&&(i.title=t.children[1].innerHTML),0<l.children.length&&(i.msrc=l.children[0].getAttribute("src")),i.el=t,r.push(i)),n++;return r},u=function(e,t){return e&&(t(e)?e:u(e.parentNode,t))},l=function(e){var t,n,i,r,l,o,a,d;if((e=e||window.event).preventDefault?e.preventDefault():e.returnValue=!1,r=e.target||e.srcElement,i=u(r,function(e){return e.tagName&&"FIGURE"===e.tagName.toUpperCase()})){for(n=i.parentNode,d=(t=i.parentNode.childNodes).length,o=void(a=0),l=0;l<d;)if(1===t[l].nodeType){if(t[l]===i){o=a;break}a++,l++}else l++;return 0<=o&&s(o,n),!1}},o=function(){var e,t,n,i,r;if(i={},(e=window.location.hash.substring(1)).length<5)return i;for(r=e.split("&"),t=0;t<r.length;)r[t]&&((n=r[t].split("=")).length<2||(i[n[0]]=n[1])),t++;return i.gid&&(i.gid=parseInt(i.gid,10)),i},s=function(e,t,n,i){var r,l,o,a;if(a=document.querySelectorAll(".pswp")[0],r=o=void 0,r=d(t),o={galleryUID:t.getAttribute("data-pswp-uid"),getThumbBoundsFn:function(e){var t,n,i;return i=r[e].el.getElementsByTagName("img")[0],t=window.pageYOffset||document.documentElement.scrollTop,{x:(n=i.getBoundingClientRect()).left,y:n.top+t,w:n.width}}},i)if(o.galleryPIDs)for(l=0;l<r.length;){if(r[l].pid===e){o.index=l;break}l++}else o.index=parseInt(e,10)-1;else o.index=parseInt(e,10);isNaN(o.index)||(n&&(o.showAnimationDuration=0),new PhotoSwipe(a,PhotoSwipeUI_Default,r,o).init())},i=0,r=(t=document.querySelectorAll(e)).length;i<r;)t[i].setAttribute("data-pswp-uid",i+1),t[i].onclick=l,i++;(n=o()).pid&&n.gid&&s(n.pid,t[n.gid-1],!0,!0)})(".my-gallery")}).call(this);

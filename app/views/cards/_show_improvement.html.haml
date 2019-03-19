@@ -1,0 +1,27 @@
+.sidebars-area.mb-3
+  .single-sidebar-widget.list_block
+    .sidebars-area.mb-4.p-0
+      %h4.title
+        = @card.title
+        %small.float-right= type_title(@card.card_class)
+      %ul.block_list.properties_list
+        %li
+          .icons.tag_line
+            Манакост:
+            %span= @card.manacost
+        %li
+          .icons.tag_line
+            Цвет карты:
+            %span{:style => "color:#{color_card(@card.color)};"}
+              = fa_icon "circle"
+              = color_to_word(@card.color)
+        %li
+          .icons.tag_line
+            Редкость:
+            %span{:style => "color:#{rarity_color(@card.rarity)};"}
+              = fa_icon "square"
+              = rarity_to_word(@card.rarity)
+    %h2.cat-title Описание
+    .effect_card.mb-4
+      = @card.description&.html_safe
+    = render 'cards/lore_card'

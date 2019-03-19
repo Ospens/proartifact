@@ -1,0 +1,14 @@
+.sidebars-area.mb-3.pb-1
+  .single-sidebar-widget.list_block
+    .sidebars-area.mb-4.p-0
+      %h6.title
+        = link_to 'Галерея', galleries_path
+      .editors-pick-post
+        .feature-img-wrap.relative
+          .feature-img.relative
+            .overlay.overlay-bg
+            = link_to galleries_path do
+              = image_tag Gallery.last&.image&.url(:thumb), class: 'rounded img-left-block'
+
+          
+    

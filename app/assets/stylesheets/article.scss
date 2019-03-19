@@ -1,0 +1,417 @@
+// Place all the styles related to the article controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@mixin box-shadow {
+    -webkit-box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
+    -moz-box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
+    box-shadow: rgba(0, 0, 0, 0.09) 0 2px 0;
+}
+
+.article_card {
+    background-color: #130d23;
+    color: #fff;
+    margin-bottom: 40px;
+    @include box-shadow;
+    height: 100%;
+    .card-body {
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        .info-block {
+            flex-grow: 1;
+            font-size: 12px;
+        }
+    }
+    .image_wrapper {
+        max-width: 100%;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+    }
+    img {
+        width: 100%;
+        -webkit-transition: all .3s ease-out;
+        -moz-transition: all .3s ease-out;
+        -o-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+        &:hover {
+            transform: scale(1.075);
+        }
+    }
+    .card-text {
+        font-size: 14px;
+    }
+    .article_short_desc {
+        color: #fff;
+        max-height: 108px;
+        min-height: 100px;
+        overflow: hidden;
+    }
+    .head-and-text {
+        height: 185px !important;
+    }
+    .card-footer {
+        a {
+            color: #b49861;
+        }
+    }
+    a:hover,
+    a:focus {
+        color: #fef9bd;
+        text-decoration: none;
+    }
+}
+
+.news_card {
+    //border: 2px solid #958059;
+    //border-radius: 0.25rem;
+    border-top: 1px solid rgba(0, 0, 0, .4);
+    background-color: #343335;
+    color: #fff;
+    @include box-shadow;
+    .news_image_container {
+        max-width: 100%;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        img {
+            border-radius: 0.25rem;
+            border: 1px solid #958059;
+        }
+    }
+    .card-body {
+        font-size: 14px;
+        display: flex;
+        flex-direction: column;
+        .footer-article {
+            flex-grow: 1;
+        }
+    }
+    a {
+        color: #b49861;
+        &:hover,
+        &:focus {
+            color: #fef9bd;
+            text-decoration: none;
+        }
+    }
+    .text-bottom {}
+}
+
+.articles-list {
+    article.news_card:first-of-type {
+        border-radius: 0.25rem 0.25rem 0 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    article.news_card:last-of-type {
+        border-radius: 0 0 0.25rem 0.25rem
+    }
+}
+
+.article_text {
+    .img-fluid {
+        max-height: 500px;
+    }
+}
+/*-------- Start single post Style -------------*/
+.single-post-wrap {
+  padding: 20px;
+  background: #343335;
+  .feature-img-thumb {
+    img {
+      width: 100%;
+    }
+
+    .overlay-bg {
+      background: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  ul.tags {
+    display: inline;
+    padding-left: 20px !important;
+  }
+
+  .content-wrap {
+    padding: 20px;
+    color: #fff;
+    ul.meta {
+      padding: 0 !important;
+    }
+  }
+  h1 {
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 1.5em;
+  }
+  h3 {
+    font-size: 1.3em;
+  }
+  ul {
+    li {
+      list-style-type: disc;
+      margin-bottom: 10px;
+    }
+  }
+  ol {
+    padding-left: 40px;
+    li {
+      list-style-type: decimal;
+      margin-bottom: 10px;
+    }
+  }
+  img {
+    max-width: 100% !important;
+  }
+}
+
+@media (max-width: 413px) {
+  .single-post-wrap .content-wrap {
+    padding: 0px;
+  }
+}
+
+.single-post-wrap .tags li {
+  display: inline-block;
+  background: #aa8a47;
+  color: #fff;
+  padding: 4px 30px;
+  font-weight: 300;
+}
+
+.single-post-wrap .tags li a {
+  color: #fff;
+}
+
+.single-post-wrap h3 {
+  margin-top: 20px;
+}
+
+.single-post-wrap .meta {
+  margin: 10px 0px;
+}
+
+.single-post-wrap .meta li {
+  display: inline-block;
+  color: #777777;
+  margin-right: 10px;
+  font-weight: 300;
+  font-size: 12px;
+}
+
+.single-post-wrap .meta li .lnr {
+  margin-right: 10px;
+  font-weight: 700;
+}
+
+.single-post-wrap .meta li a,
+.single-post-wrap .meta li .lnr {
+  color: #777777;
+}
+
+.single-post-wrap blockquote {
+  border-left: 2px solid #aa8a47;
+  padding-left: 20px;
+  font-style: italic;
+  margin-left: 0;
+  margin-right: 0;
+  p {
+    margin-bottom: 0; 
+  }
+}
+
+.single-post-wrap .navigation-wrap {
+  margin-top: 30px;
+}
+
+.single-post-wrap .navigation-wrap a {
+  font-size: 12px;
+  font-weight: 300;
+  background: #222;
+  color: #fff;
+  padding: 12px 24px;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
+.single-post-wrap .navigation-wrap a:hover {
+  background: #f30007;
+}
+
+.single-post-wrap .navigation-wrap .lnr {
+  font-weight: 700;
+}
+
+.single-post-wrap .navigation-wrap .prev .lnr {
+  margin-right: 10px;
+}
+
+.single-post-wrap .navigation-wrap .next .lnr {
+  margin-left: 10px;
+}
+
+.single-post-wrap .comment-sec-area h6 {
+  padding: 50px 0px;
+}
+
+.single-post-wrap .comment-sec-area a {
+  color: #222;
+}
+
+.single-post-wrap .comment-sec-area .comment-list {
+  padding-bottom: 30px;
+}
+
+.single-post-wrap .comment-sec-area .comment-list.left-padding {
+  padding-left: 25px;
+}
+
+.single-post-wrap .comment-sec-area .thumb {
+  margin-right: 20px;
+}
+
+.single-post-wrap .comment-sec-area .date {
+  font-size: 13px;
+  color: #cccccc;
+}
+
+.single-post-wrap .comment-sec-area .comment {
+  color: #777777;
+}
+
+.single-post-wrap .comment-sec-area .btn-reply {
+  background-color: #222;
+  color: #fff;
+  padding: 8px 30px;
+  display: block;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+}
+
+@media (max-width: 414px) {
+  .single-post-wrap .comment-sec-area .btn-reply {
+    padding: 5px 20px;
+  }
+}
+
+.single-post-wrap .comment-sec-area .btn-reply:hover {
+  background-color: #f30007;
+  color: #fff;
+}
+
+.comment-form {
+  background: #ecf0f1;
+  text-align: center;
+  padding: 50px 20px;
+  margin-top: 50px;
+}
+
+.comment-form h4 {
+  text-align: left;
+  margin-bottom: 50px;
+}
+
+.comment-form .name {
+  padding-left: 0px;
+}
+
+@media (max-width: 991px) {
+  .comment-form .name {
+    padding-right: 0px;
+  }
+}
+
+.comment-form .email {
+  padding-right: 0px;
+}
+
+@media (max-width: 991px) {
+  .comment-form .email {
+    padding-left: 0px;
+  }
+}
+
+.comment-form .form-control {
+  padding: 12px;
+  background: #fff;
+  border: none;
+  border-radius: 0px;
+  width: 100%;
+  font-size: 13px;
+  color: #777777;
+}
+
+.comment-form .form-control:focus {
+  box-shadow: none;
+  border: 1px solid #eee;
+}
+
+.comment-form ::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-size: 13px;
+  color: #777;
+}
+
+.comment-form ::-moz-placeholder {
+  /* Firefox 19+ */
+  font-size: 13px;
+  color: #777;
+}
+
+.comment-form :-ms-input-placeholder {
+  /* IE 10+ */
+  font-size: 13px;
+  color: #777;
+}
+
+.comment-form :-moz-placeholder {
+  /* Firefox 18- */
+  font-size: 13px;
+  color: #777;
+}
+
+.comment-form .primary-btn {
+  border-radius: 0px !important;
+  border: 1px solid transparent;
+  color: #fff;
+  font-weight: 600;
+}
+
+.comment-form .primary-btn:hover {
+  background: transparent;
+  border-color: #f30007 !important;
+  color: #f30007 !important;
+}
+
+/*-------- End single post Style -------------*/
+
+.vote_down {
+  background: gray;
+  border: 1px solid gray;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 0;
+  &.clicked {
+    background: #a20005;
+    border: 1px solid #a20005;
+  }
+}
+
+.vote_up {
+  background: gray;
+  border: 1px solid gray;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 0;
+  &.clicked {
+    border: 1px solid #00800f;
+    background: #00800f;
+  }
+}

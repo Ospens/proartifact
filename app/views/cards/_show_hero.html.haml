@@ -1,0 +1,67 @@
+.sidebars-area.mb-3
+  .single-sidebar-widget.list_block
+    .sidebars-area.mb-4.p-0
+      %h4.title
+        = @card.title
+        %small.float-right= type_title(@card.card_class)
+      %ul.block_list.properties_list.stats_list
+        %li
+          .icons.tag_line
+            Атака:
+            %span.icon-attack
+            %span{:style => "color:#fff;"}= @card.attack
+        %li
+          .icons.tag_line
+            Броня:
+            %span.icon-armor
+            %span{:style => "color:#fff;"}= @card.armor || 'N/A'
+        %li
+          .icons.tag_line
+            Здоровье:
+            %span.icon-accessories
+            %span{:style => "color:#fff;"}= @card.health
+      %ul.block_list.properties_list
+        %li
+          .icons.tag_line
+            Цвет карты:
+            %span{:style => "color:#{color_card(@card.color)};"}
+              = fa_icon "circle"
+              = color_to_word(@card.color)
+        %li
+          .icons.tag_line
+            Редкость:
+            %span{:style => "color:#{rarity_color(@card.rarity)};"}
+              = fa_icon "square"
+              = rarity_to_word(@card.rarity)
+    - if @card.hero_spells.present?
+      .cardspell.my-2
+        .hero_spell_box
+          .card_spell_img
+            = image_tag @card.hero_spells.url(:small), width: 70, class: "tooltip-show", 'data-tooltip-content': "#tooltip_content"
+          %div
+            %h3.card_spell_name= @card.ability_name
+            %p.card_spell_type= ability_to_word(@card.ability_type) 
+        .effect_card.mb-4.mt-2
+          = @card.ability_description&.html_safe
+      .d-none
+        %span#tooltip_content.cardspell.my-2
+          .hero_spell_box
+            .card_spell_img
+              = image_tag @card.hero_spells.url(:small), width: 70
+            %div
+              %h3.card_spell_name= @card.ability_name
+              %p.card_spell_type= ability_to_word(@card.ability_type) 
+          .effect_card.mb-4.mt-2
+            = @card.ability_description&.html_safe
+    - if @card.second_hero_spells.present?
+      .cardspell.my-2
+        .hero_spell_box
+          .card_spell_img
+            = image_tag @card.second_hero_spells.url(:small), width: 70
+          %div
+            %h3.card_spell_name= @card.second_hero_ability_title
+            %p.card_spell_type= ability_to_word(@card.second_hero_ability_type) 
+        .effect_card.mb-4.mt-2
+          = @card.second_hero_ability_description&.html_safe
+
+    = render 'cards/lore_card'

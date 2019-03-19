@@ -1,0 +1,211 @@
+- content_for :meta_title, "#{@deck.name} | #{DEFAULT_META["meta_title"]}"
+- content_for :meta_description, "#{@deck.short_description}"
+- content_for :meta_image, "#{@heroes.first.image_card.url(:large)}"
+- content_for :vk_meta_image, "#{@heroes.first.image_card.url(:large)}"
+- content_for :link_canonical, "#{deck_url(@deck)}"
+
+%section.latest-post-area
+  .container.no-padding
+    .row
+      .col-md-8.post-list.px-1
+        / Start single-post Area
+        %article.single-post-wrap{itemtype: "https://schema.org/Article", itemscope: '', style: 'background: #1a1a1a;'}
+          %meta{content: "#{@deck.name} | #{DEFAULT_META["meta_title"]}", itemid: "#{request.base_url + deck_path(@deck.id)}", itemprop: "mainEntityOfPage", itemscope: "", itemtype: "https://schema.org/WebPage", content: @deck.name}
+          %div{itemtype: "https://schema.org/ImageObject", itemprop: "image", itemscope: ''}
+          .content-wrap
+            .d-none{itemprop: "publisher", itemtype: "https://schema.org/Organization", itemscope: ''}
+              %div{itemprop: "logo", itemtype: "https://schema.org/ImageObject", itemscope: ''}
+                = image_tag 'logo.png', class: "card-img-top", height: '30px', alt: 'Proartifact.ru', itemprop: "url image"
+                %meta{:content => "100", :itemprop => "width"}
+                %meta{:content => "15", :itemprop => "height"}
+              %meta{itemprop: "name", content: "Pro Artifact"}
+              %meta{itemprop: "address", content: "Россия"}
+              %meta{itemprop: "telephone", content: "0"}
+            .d-none{itemprop: "articleBody"}= @deck.short_description
+            .d-none{itemprop: "author", itemtype: "http://schema.org/Person", itemscope: ''}
+              %meta{itemprop: "name", content: "https://vk.com/proartifact_ru"}
+            / Article body
+            %h1{itemprop: "headline"}= @deck.name
+            %ul.meta
+              - if @deck.user
+                %li
+                  = fa_icon "user-circle", class: "mr-1"
+                  = link_to @deck.user, target: '_blank' do
+                    = @deck.user.nickname
+              %li
+                = fa_icon "eye", class: "mr-1"
+                = @shows
+              %li{itemprop: "datePublished"}
+                = fa_icon "calendar", class: "mr-1"
+                = @deck.published_at&.strftime("%F %R")
+            %p
+              - price = @deck.deck_cards.includes(:card).sum { |dc| (dc.card_count || 1) * dc.card.market_price }
+              Стоимость колоды: 
+              %b= "#{price.round(2)} руб."
+            = @deck.description.html_safe
+            %div{'data-turbolinks': false}
+              / Yandex.RTB R-A-334935-3
+              :javascript
+                (function(w, d, n, s, t) {
+                    w[n] = w[n] || [];
+                    w[n].push(function() {
+                        Ya.Context.AdvManager.render({
+                            blockId: "R-A-334935-3",
+                            renderTo: "yandex_rtb_R-A-334935-3",
+                            async: true
+                        });
+                    });
+                    t = d.getElementsByTagName("script")[0];
+                    s = d.createElement("script");
+                    s.type = "text/javascript";
+                    s.src = "//an.yandex.ru/system/context.js";
+                    s.async = true;
+                    t.parentNode.insertBefore(s, t);
+                })(this, this.document, "yandexContextAsyncCallbacks");
+          %ul.tags
+          / likes
+          - likes = @deck.likes
+          %span.float-right{id: 'article_id', 'data-id': @deck.id, 'data-type': 'deck'}
+            - user_like = likes.find_by(user: current_user)
+            %button.vote_up.mr-2{class: user_like&.vote == 1 ? 'clicked' : ''}
+              - votes_up = @deck.likes.where(vote: 1).length
+              = fa_icon 'thumbs-up', class: 'mr-1'
+              %span{'data-votes': votes_up}= votes_up
+            %button.vote_down.mr-1{class: user_like&.vote == -1 ? 'clicked' : ''}
+              - votes_down = @deck.likes.where(vote: -1).length
+              = fa_icon 'thumbs-down', class: 'mr-1'
+              %span{'data-votes': votes_down}= votes_down
+        / comments
+        #comments.sidebars-area.my-3.pb-1.comments_block{style: 'background: #1a1a1a;'}
+          .single-sidebar-widget.list_block
+            .sidebars-area.mb-2.p-0
+              %h6.title Комментарии
+            = render partial: 'comments/form', locals: { commentable: @deck, class: 'main_replies_from' }
+            - if params[:comment]
+              %p Ветка комментария
+              = link_to "Показать все комментарии", url_for()
+            = render @comments, continue_thread: 5
+          = will_paginate @comments, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: '< ', next_label: ' >'
+          
+      .col-md-4.card-column.deck-column.single-post-wrap
+        .row.hero_container.mb-2
+          - @heroes.each_with_index do |hero, i|
+            .col.hero-icon.text-center.tooltip-card{class: "hero_#{color_class(hero.color)} #{'ml-2' if i > 2}", data: {id: hero.id}}
+              = image_tag hero.hero_icon.url(:original), height: "35" 
+        - spells = cards_count(2)
+        - creeps = cards_count(4)
+        - improvements = cards_count(5)
+        - accessories = cards_count(1, true)
+        - armors = cards_count(2, true)
+        - attacks = cards_count(3, true)
+        - consumables = cards_count(4, true)
+        .row.mb-2.card_info_column
+          .col-5.text-center.pr-4
+            = "Карты: #{spells + creeps + improvements}"
+            .row
+              .col
+                %span.icon-spell
+                  = spells
+              .col
+                %span.icon-creep
+                  = creeps
+              .col
+                %span.icon-improvement
+                  = improvements
+          .col-7.text-center.pl-4
+            = "Предметов: #{attacks + armors + accessories + consumables}"
+            .row
+              .col
+                %span.icon-attack
+                  = attacks
+              .col
+                %span.icon-armor
+                  = armors
+              .col
+                %span.icon-accessories
+                  = accessories
+              .col
+                %span.icon-consumables
+                  = consumables
+        - green_array = mana_array(@cards.where(color:1))
+        - red_array = mana_array(@cards.where(color: 2))
+        - black_array = mana_array(@cards.where(color: 3))
+        - blue_array = mana_array(@cards.where(color: 4))
+        - all_colors = [green_array, red_array, black_array, blue_array].transpose.map {|x| x.reduce(:+)}
+        - percent_one_card = (100.0 / all_colors.max).round(4)
+        .mana_chart
+          .row.mb-4.text-center
+            - all_colors.each_with_index do |color_column, i|
+              - green_percent = green_array[i] * percent_one_card
+              - red_percent = red_array[i] * percent_one_card
+              - black_percent = black_array[i] * percent_one_card
+              - blue_percent = blue_array[i] * percent_one_card
+              .col-sm-1
+                .manabar
+                  .colormana{style: "background-color: #6f1424; height: #{red_percent}%; display: #{'none' if red_percent == 0}"}
+                  .colormana{style: "background-color: #1f4a64; height: #{blue_percent}%; display: #{'none' if blue_percent == 0}"}
+                  .colormana{style: "background-color: #3e3f3f; height: #{black_percent}%; display: #{'none' if black_percent == 0}"}
+                  .colormana{style: "background-color: #2a6037; height: #{green_percent}%; display: #{'none' if green_percent == 0}"}
+                .pl-2= i == 7 ? '8+' : i + 1
+            .col-sm-4
+              .row
+                .col-sm-6
+                  .color_square{style: "background-color: #6f1424; #{'display: none;' if red_array.sum == 0}"}
+                    = red_array.sum
+                .col-sm-6.right_column
+                  .color_square{style: "background-color: #2a6037;#{'display: none;' if green_array.sum == 0}"}
+                    = green_array.sum
+              .row
+                .col-sm-6
+                  .color_square{style: "background-color: #1f4a64;#{'display: none;' if blue_array.sum == 0}"}
+                    = blue_array.sum
+                .col-sm-6.right_column
+                  .color_square{style: "background-color: #3e3f3f;#{'display: none;' if black_array.sum == 0}"}
+                    = black_array.sum
+        #deck_code.btn-copy{onclick: "copyToClipboard('#{@deck.deck_code}')"}
+          Копировать код колоды
+          = fa_icon "copy", class: "ml-1"
+        .card_list.deck_list
+          - @cards.each do |card|
+            .col-md-12.card_line.tooltip-card{data: {id: card.id}}
+              = link_to card, class: "#{color_class(card.color)}-card-tooltip card-tooltip", target: '_blank' do
+                %div.cards_gr{class: "bg1_#{color_class(card.color)}", style: "border-left: 4px solid #{rarity_color(card.rarity)};"}
+                  %div
+                    - if card.card_class == 3
+                      %span= card.item_gold
+                    - else
+                      %span{class: "icon-#{type_to_icon(card.card_class)}"}
+                      %span= card.manacost
+                  = card.title
+                  .float-right.mr-2= "x#{card.deck_cards.find_by(deck_id: @deck.id).card_count}"
+        
+        .sidebars-area.my-3.pb-1
+          .sidebars-area.mb-2.p-0{'data-turbolinks': false}
+            / Yandex.RTB R-A-334935-2
+            #yandex_rtb_R-A-334935-2
+            :javascript
+              (function(w, d, n, s, t) {
+                  w[n] = w[n] || [];
+                  w[n].push(function() {
+                      Ya.Context.AdvManager.render({
+                          blockId: "R-A-334935-2",
+                          renderTo: "yandex_rtb_R-A-334935-2",
+                          async: true
+                      });
+                  });
+                  t = d.getElementsByTagName("script")[0];
+                  s = d.createElement("script");
+                  s.type = "text/javascript";
+                  s.src = "//an.yandex.ru/system/context.js";
+                  s.async = true;
+                  t.parentNode.insertBefore(s, t);
+              })(this, this.document, "yandexContextAsyncCallbacks");
+= javascript_include_tag 'votes', 'data-turbolinks-track' => true, cache: true
+:javascript
+  function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $('body').append($temp);
+    $temp.val(element).select();
+    document.execCommand('copy');
+    $temp.remove();
+  }

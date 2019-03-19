@@ -1,0 +1,56 @@
+- content_for :link_canonical, "#{news_index_url}"
+- content_for :meta_title, "Новости | #{DEFAULT_META["meta_title"]}"
+- content_for :meta_image, "#{@news.first.title_image.url(:medium)}"
+- content_for :meta_description, "Свежие новости и обзор событий мира Artifact"
+
+
+%section.latest-post-area.px-1
+  .container.p-0
+    .row
+      .col-lg-8.post-list.px-1
+        .latest-post-wrap
+          %h4.cat-title Новости
+          - @news.each do |news|
+            %article.single-latest-post.row.align-items-center
+              .col-lg-5.post-left
+                .feature-img.relative
+                  .overlay.overlay-bg
+                  = link_to news do
+                    = image_tag news.title_image.url(:small), class: 'card-img-top', alt: 'img'
+                %ul.tags.p-0
+                  %li
+                    = link_to news.all_tags.first.downcase, tag_path(news.all_tags.first.downcase)
+              .col-lg-7.post-right
+                = link_to news do
+                  %h4= news.title
+                %ul.meta.pl-0
+                  %li
+                    = link_to news do
+                      = fa_icon "eye", class: "mr-1"
+                      = news.impressionist_count
+                  %li
+                    = link_to news do
+                      = fa_icon "calendar", class: "mr-1"
+                      - if news.publish_date > Time.current - 30.days
+                        = time_ago_in_words(news.publish_date)
+                      - else
+                        = news.publish_date&.strftime("%F %R")
+                  %li
+                    = link_to news do
+                      = fa_icon 'thumbs-up', class: "mr-1"
+                      = news.votes_up.length
+                  %li
+                    = link_to news do
+                      = fa_icon 'thumbs-down', class: "mr-1"
+                      = news.votes_down.length
+                %p.excert
+                  = link_to news do
+                    = news.short_description
+      .col-lg-4.px-1
+        = render 'blocks/tags'
+        = render 'blocks/articles'
+        = render 'blocks/galery'
+        = render 'blocks/social', cached: true
+  .mt-4
+    = will_paginate @news, renderer: WillPaginate::ActionView::Bootstrap4LinkRenderer, previous_label: '< ', next_label: ' >'
+    

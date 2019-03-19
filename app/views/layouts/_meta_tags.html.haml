@@ -1,0 +1,28 @@
+%title= "#{meta_title}"
+
+= favicon_link_tag 'favicon.ico', rel: 'shortcut icon'
+%link{:href => "/rss_news", :rel => "alternate", :title => "RSS-лента по Artifact Гайды", :type => "application/rss+xml"}
+%meta{:content => "Artifact, Artifact дота 2, дата выхода artifact, ProArtifact.ru, Artifact новости, Artifact руководства, Artifact гайды, артефакт игра, Артефакт, Артефакт новости, Артефакт руководства, Артефакт гайды, Артефакт, Артифакт", :name => "keywords"}
+%meta{:charset => "UTF-8"}
+%meta{content: "1e18186903e88483", :name => "yandex-verification"}
+%meta{content: "-wD5bmrRRShafQohrBNnrfJcPt4rY5QxuIyrUBAFejY", :name => "google-site-verification"}
+%meta{content: "width=device-width, initial-scale=1.0", :name => "viewport"}
+
+%meta{content: "#{meta_description}", :name => "description"}
+
+%meta{:property => "og:title", content: "#{meta_title}"}
+%meta{:property => "og:type", content: 'website'}
+%meta{:property => "og:url", content: "#{request.original_url}"}
+%meta{:property => "og:image",content: "#{meta_image}"}
+%meta{:property => "og:description", content: "#{meta_description}"}
+%meta{:property => "og:site_name", content: "#{meta_title}"}
+
+%meta{name: "twitter:card", content: "summary_large_image"}
+%meta{name: "twitter:site", content: "#{DEFAULT_META["twitter_account"]}"}
+%meta{name: "twitter:title", content: "#{meta_title}"}
+%meta{name: "twitter:description", content: "#{meta_description}"}
+%meta{name: "twitter:creator", content: "#{DEFAULT_META["twitter_account"]}"}
+%meta{name: "twitter:image:src", content: "#{meta_image}"}
+
+- if content_for?(:link_canonical)
+  %link{rel: "canonical", href: "#{content_for(:link_canonical)}"}

@@ -1,0 +1,15 @@
+.col.col-md-auto.px-1
+  %a.crd-container{:href => "#"}
+    %div.mg.mx-1{class: "#{type_class(card.card_class)} #{color_class(card.color)}"}
+      .title-crd
+        .cost= card.manacost
+        .cname= card.title
+      .image
+        = image_tag card.image_card.url(:large), class: "lazyload"
+      .spell-type
+        = image_tag 'ico_sp.png', class: "lazyload", :width => "28"
+      .info
+        .txt= card.description&.html_safe
+      .rarity.rare.set_2
+      .crd-footer
+    %h4.card_nm.mt-2= card.title

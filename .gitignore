@@ -39,4 +39,3 @@
 config/secrets.yml
 
 .ruby-gemset
-Gemfile.lock

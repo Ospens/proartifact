@@ -36,7 +36,6 @@
 /.idea
 /coverage/
 
-config/database.yml
 config/secrets.yml
 
 .ruby-gemset
